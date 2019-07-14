@@ -1,5 +1,7 @@
 import {
     ADD_TODO,
+    FETCH_TODOS,
+    TOGGLE_TODO,
     REMOVE_TODO,
     TOGGLE_ALL_TODOS,
     CLEAR_LIST,
@@ -10,18 +12,25 @@ import {
     SHOW_ACTIVE
 }  from './actions';
 
-const intialState = [];
+const initialState = {
+    todos: []
+};
 
-const rootReducer = (state = [], action) => {
+const todosReducer = (state = initialState, action) => {
     switch(action.type) {
-        case ADD_TODO:
-            return [
+        case FETCH_TODOS:
+            return {
                 ...state,
-                action.todo
-            ];
-        default: return [...state];
+                todos: action.todos
+            }
+        case ADD_TODO:
+            return {
+                ...state,
+                todos: action.todos
+            };
+        default: return {...state};
 
     }
 };
 
-export default rootReducer;
+export default todosReducer;

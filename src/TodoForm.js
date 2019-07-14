@@ -1,9 +1,10 @@
 import React from 'react';
-//import { connect } from '';
+import { connect } from 'react-redux';
+import { addTodo } from './actions';
 
 class TodoForm extends React.Component {
     state = {
-        todo: ''
+        item: ''
     }
 
     handleInput = (e) => {
@@ -14,17 +15,36 @@ class TodoForm extends React.Component {
 
     handleSubmit = (e) => {
       e.preventDefault();
-      console.log(this.state.todo);
+      const { todos, addTodo } = this.props;
+      const { item } = this.state;
+      const ids = (typeof todos !== 'undefined') ? todos.map(({id}) => id) : [0];
+      const nextId = Math.max(...ids) + 1;
+      const todo = {
+          id: nextId,
+          item,
+          completed: false
+      };
+      addTodo(todo);
     };
 
     render () {
         return (
         <form action="" onSubmit={this.handleSubmit}>
-            <input type="text" name="todo" id="todo" className="todo" placeholder="Enter Todo Item" required onChange={this.handleInput}/>
+            <input type="text" name="item" id="item" className="item" placeholder="Enter Todo Item" required onChange={this.handleInput}/>
             <button type="submit">Add Todo</button>
         </form>
         );
     }
 }
 
-export default TodoForm;
+const mapStateToProps = state => ({
+    todos: state.todos.todos
+});
+
+const mapDispatchToProps = dispatch => ({
+    addTodo: (todo) => {
+        dispatch(addTodo(todo));
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);

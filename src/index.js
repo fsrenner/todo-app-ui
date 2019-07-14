@@ -2,16 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from "redux-devtools-extension";
-import rootReducer from './reducers';
+import {
+    createStore,
+    compose,
+    applyMiddleware,
+    combineReducers
+} from 'redux';
+import todosReducer from './reducers';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const rootReducer = combineReducers({
+    todos: todosReducer
+});
+
 const store = createStore(
     rootReducer,
-    composeWithDevTools(
+    compose(
         applyMiddleware(thunk)
     )
 );
