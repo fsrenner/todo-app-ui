@@ -18,7 +18,7 @@ class TodoForm extends React.Component {
       const { todos, addTodo } = this.props;
       const { item } = this.state;
       const ids = (typeof todos !== 'undefined') ? todos.map(({id}) => id) : [0];
-      const nextId = Math.max(...ids) + 1;
+      const nextId = (todos.length === 0) ? 1 : Math.max(...ids) + 1;
       const todo = {
           id: nextId,
           item,
